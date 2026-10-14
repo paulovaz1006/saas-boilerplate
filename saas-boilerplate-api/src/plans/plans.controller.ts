@@ -1,0 +1,2 @@
+import { Controller, Get } from '@nestjs/common'; import { InjectRepository } from '@nestjs/typeorm'; import { Repository } from 'typeorm'; import { Plan } from './plan.entity';
+@Controller('plans') export class PlansController { constructor(@InjectRepository(Plan) private plans: Repository<Plan>) {} @Get() async list() { const plans = await this.plans.find({where:{isPublic:true},order:{priceCents:'ASC'}}); return plans.map(({id,key,name,priceCents,currency,limits})=>({id,key,name,priceCents,currency,limits})); } }
